@@ -1,14 +1,11 @@
 import { MongoClient } from "mongodb";
 import bcrypt from "bcryptjs";
 
-const url =
-  "mongodb+srv://admin:rahasia123@cluster0.laechhg.mongodb.net/?retryWrites=true&w=majority";
-
 export default async function Create(req, res) {
   const { username, password } = req.body;
 
-  const client = await MongoClient.connect(url);
-  const db = client.db("db_testing");
+  const client = await MongoClient.connect(process.env.DB_URL);
+  const db = await client.db("db_testing");
 
   if (req.method == "POST") {
     try {
@@ -29,6 +26,4 @@ export default async function Create(req, res) {
   } else {
     res.status(400).json({ msg: "bad request" });
   }
-
-  client.close();
 }

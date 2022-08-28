@@ -2,12 +2,9 @@
 
 import { MongoClient } from "mongodb";
 
-const url =
-  "mongodb+srv://admin:rahasia123@cluster0.laechhg.mongodb.net/?retryWrites=true&w=majority";
-
 export default async function handler(req, res) {
-  const client = await MongoClient.connect(url);
-  const db = client.db("db_testing");
+  const client = await MongoClient.connect(process.env.DB_URL);
+  const db = await client.db("db_testing");
 
   if (req.method == "GET") {
     const users = await db.collection("users").find().toArray();
@@ -27,6 +24,4 @@ export default async function handler(req, res) {
   } else {
     res.status(400).json({ msg: "bad request" });
   }
-
-  client.close();
 }
