@@ -17,7 +17,7 @@ export default function Dashboard() {
     } else {
       push("/login");
     }
-  }, []);
+  });
 
   return (
     <>
