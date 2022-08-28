@@ -14,7 +14,7 @@ export default function Login() {
     var data = { username, password };
     const result = await axios({
       method: "POST",
-      url: "http://localhost:3000/api/users/login",
+      url: process.env.NEXT_PUBLIC_DOMAIN + "/api/users/login",
       data,
     });
     if (result.status == 200 && result.data.users) {

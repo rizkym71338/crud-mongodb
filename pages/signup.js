@@ -15,7 +15,7 @@ export default function Signup() {
     try {
       const result = await axios({
         method: "POST",
-        url: "http://localhost:3000/api/users/create",
+        url: process.env.NEXT_PUBLIC_DOMAIN + "/api/users/create",
         data,
       });
       alert("Success create users");
@@ -28,7 +28,7 @@ export default function Signup() {
 
   return (
     <>
-      <section className="flex justify-center items-center max-w-xl mx-auto h-screen">
+      <section className="flex items-center justify-center h-screen max-w-xl mx-auto">
         <div className="w-full">
           <div className="mb-6">
             <label
