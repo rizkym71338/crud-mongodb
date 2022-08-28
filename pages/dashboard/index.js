@@ -17,11 +17,11 @@ export default function Dashboard() {
     } else {
       push("/login");
     }
-  });
+  }, []);
 
   return (
     <>
-      <section className="flex flex-col gap-6 h-screen items-center justify-center max-w-6xl mx-auto">
+      <section className="flex flex-col items-center justify-center h-screen max-w-6xl gap-6 mx-auto">
         <h1 className="text-3xl font-bold">
           Welcome {users?.username} ({users?.role})
         </h1>

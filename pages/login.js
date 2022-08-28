@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 
-const login = () => {
+export default function Login() {
   const { push } = useRouter();
 
   const usernameRef = useRef(null);
@@ -28,7 +28,7 @@ const login = () => {
 
   return (
     <>
-      <section className="flex justify-center items-center max-w-xl mx-auto h-screen">
+      <section className="flex items-center justify-center h-screen max-w-xl mx-auto">
         <div className="w-full">
           <div className="mb-6">
             <label
@@ -71,6 +71,4 @@ const login = () => {
       </section>
     </>
   );
-};
-
-export default login;
+}
