@@ -42,7 +42,7 @@ export default function Dashboard({ users }) {
       );
     }, 1000);
 
-    if (date == "01:40:00") {
+    if (date == "01:41:00") {
       new Notification("TESTING");
     }
   });
