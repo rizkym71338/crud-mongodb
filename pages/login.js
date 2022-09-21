@@ -4,23 +4,23 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useRef } from "react";
 
-export async function getServerSideProps(ctx) {
-  const { req, res } = ctx;
-  const users = getCookie("users", { req, res });
+// export async function getServerSideProps(ctx) {
+//   const { req, res } = ctx;
+//   const users = getCookie("users", { req, res });
 
-  if (users) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/dashboard",
-      },
-    };
-  } else {
-    return {
-      props: {},
-    };
-  }
-}
+//   if (users) {
+//     return {
+//       redirect: {
+//         permanent: false,
+//         destination: "/dashboard",
+//       },
+//     };
+//   } else {
+//     return {
+//       props: {},
+//     };
+//   }
+// }
 
 export default function Login() {
   const { replace, push } = useRouter();
