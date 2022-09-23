@@ -1,14 +1,12 @@
 const { createServer } = require("http");
 const { parse } = require("url");
 const next = require("next");
+const { MongoClient } = require("mongodb");
 
 const dev = process.env.NODE_ENV !== "production";
-const hostname = "localhost";
+const hostname =
+  process.env.NODE_ENV !== "production" ? "localhost" : process.env.HOSTNAME;
 const port = 3000;
-
-// const { MongoClient } = require("mongodb");
-// const client = MongoClient.connect(process.env.DB_URL);
-// const db = client.db("db_testing");
 
 // when using middleware `hostname` and `port` must be provided below
 const app = next({ dev, hostname, port });
@@ -34,23 +32,32 @@ app.prepare().then(() => {
       res.statusCode = 500;
       res.end("internal server error");
     }
-  }).listen(port, (err) => {
+  }).listen(port, async (err) => {
     if (err) throw err;
     console.log(`> Ready on http://${hostname}:${port}`);
-    setInterval(() => {
-      const today = new Date();
-      const hours = today.getHours();
-      const minutes = today.getMinutes();
-      const seconds = today.getSeconds();
-      const time = `${hours < 10 ? "0" + hours : hours}:${
-        minutes < 10 ? "0" + minutes : minutes
-      }:${seconds < 10 ? "0" + seconds : seconds}`;
-      console.log(time);
-      if (time == "21:10:20") {
-        console.log("TESTING");
-      }
-    }, 1000);
-    // const users = db.collection("users").findAll();
-    // console.log(users);
+    onListening();
   });
 });
+
+function onListening() {
+  const client = new MongoClient(process.env.DB_URL);
+  const db = client.db("db_testing");
+  setInterval(async () => {
+    const today = new Date();
+    const hours = today.getHours();
+    const minutes = today.getMinutes();
+    const seconds = today.getSeconds();
+    const time = `${hours < 10 ? "0" + hours : hours}:${
+      minutes < 10 ? "0" + minutes : minutes
+    }:${seconds < 10 ? "0" + seconds : seconds}`;
+    const times = await db.collection("times").find().toArray();
+    const filter = times.filter((e) => e.time == time);
+    if (filter.length > 0) {
+      await db
+        .collection("times")
+        .updateOne({ time }, { $set: { status: "1" } });
+      console.log("RING ... IN " + time);
+    }
+    console.log(time);
+  }, 1000);
+}
